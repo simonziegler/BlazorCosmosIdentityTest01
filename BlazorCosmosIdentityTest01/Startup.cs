@@ -31,9 +31,23 @@ namespace BlazorCosmosIdentityTest01
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // =============================================================================
+            // Updated to target local Cosmos DB rathern than local SQL Server
+            // Note: you will need to change the Key "C2y..." for your Cosmos connection
+            // =============================================================================
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseCosmos(
+                    "https://localhost:8081",
+                    "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+                    "BlazorIdentity"));
+            // =============================================================================
+            // End of changes
+            // =============================================================================
+
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
